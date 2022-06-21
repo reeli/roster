@@ -19,30 +19,39 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Page Title")),
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            const DrawerHeader(
-                decoration: BoxDecoration(color: Colors.blue),
-                child: Text("drawer header")),
-            ListTile(
-              title: const Text("Title 1"),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const StandUpView()));
-              },
-            ),
-            ListTile(
-              title: const Text("Title 2"),
-              onTap: () {},
-            )
-          ],
+        appBar: AppBar(title: const Text("Home")),
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              const DrawerHeader(
+                  decoration: BoxDecoration(color: Colors.blue),
+                  child: Text("drawer header")),
+              ListTile(
+                title: const Text("Title 1"),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const StandUpView()));
+                },
+              ),
+              ListTile(
+                title: const Text("Title 2"),
+                onTap: () {},
+              )
+            ],
+          ),
         ),
-      ),
-    );
+        body: Column(children: const [
+          Center(
+            child: Text(
+              "Today's facilitator is",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Text("Rui")
+        ]));
   }
 }
 
