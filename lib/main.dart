@@ -43,14 +43,54 @@ class HomePage extends StatelessWidget {
             ],
           ),
         ),
-        body: Column(children: const [
-          Center(
-            child: Text(
-              "Today's facilitator is",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        body: Flex(direction: Axis.vertical, children: [
+          const Expanded(
+            flex: 1,
+            child: Center(
+              child: Text(
+                "Today's facilitator is",
+                style: TextStyle(fontSize: 18),
+              ),
             ),
           ),
-          Text("Rui")
+          const Expanded(
+              flex: 1,
+              child: Text("Rui Li",
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold))),
+          Expanded(
+              flex: 1,
+              child: Container(
+                  padding: const EdgeInsets.all(16),
+                  child: Flex(
+                    direction: Axis.horizontal,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: OutlinedButton(
+                              // style: ElevatedButton.styleFrom(
+                              //     primary: Color.fromRGBO(255, 0, 0, 1)),
+                              onPressed: () {},
+                              child: const Padding(
+                                padding: EdgeInsets.all(16),
+                                child: Text("Skip"),
+                              ),
+                            )),
+                      ),
+                      Expanded(
+                        child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              child: const Padding(
+                                padding: EdgeInsets.all(16),
+                                child: Text("Accept"),
+                              ),
+                            )),
+                      )
+                    ],
+                  )))
         ]));
   }
 }
