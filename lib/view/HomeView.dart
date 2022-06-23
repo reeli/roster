@@ -7,14 +7,37 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   bool _visible = true;
+  static const List<Tab> myTabs = <Tab>[
+    Tab(text: 'LEFT'),
+    Tab(text: 'RIGHT'),
+  ];
+
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(vsync: this, length: myTabs.length);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Home"),
+          bottom: TabBar(
+            tabs: myTabs,
+            controller: _tabController,
+          ),
         ),
         drawer: Drawer(
           child: ListView(
@@ -39,70 +62,77 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-        body: Flex(direction: Axis.vertical, children: [
-          const Expanded(
-            flex: 1,
-            child: Center(
-              child: Text(
-                "Today's facilitator is",
-                style: TextStyle(fontSize: 18),
+        body: TabBarView(
+          controller: _tabController,
+          children: [
+            Flex(direction: Axis.vertical, children: [
+              const Expanded(
+                flex: 1,
+                child: Center(
+                  child: Text(
+                    "Today's facilitator is",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
               ),
-            ),
-          ),
-          const Expanded(
-              flex: 1,
-              child: Text("Rui Li",
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold))),
-          Expanded(
-            flex: 1,
-            child: Container(
-                padding: const EdgeInsets.all(16),
-                child: Visibility(
-                    maintainSize: false,
-                    visible: _visible,
-                    child: Flex(
-                      direction: Axis.horizontal,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: OutlinedButton(
-                                // style: ElevatedButton.styleFrom(
-                                //     primary: Color.fromRGBO(255, 0, 0, 1)),
-                                onPressed: () {},
-                                child: const Padding(
-                                  padding: EdgeInsets.all(16),
-                                  child: Text("Skip"),
-                                ),
-                              )),
-                        ),
-                        Expanded(
-                          child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(const SnackBar(
-                                    content: Text(
-                                        "You'll be today's stand up facilitator, thank you!"),
-                                  ));
-                                  setState(() {
-                                    _visible = false;
-                                  });
-                                },
-                                child: const Padding(
-                                  padding: EdgeInsets.all(16),
-                                  child: Text("Accept"),
-                                ),
-                              )),
-                        )
-                      ],
-                    ))),
-          )
-        ]));
+              const Expanded(
+                  flex: 1,
+                  child: Text("Rui Li",
+                      style: TextStyle(
+                          fontSize: 28, fontWeight: FontWeight.bold))),
+              Expanded(
+                flex: 1,
+                child: Container(
+                    padding: const EdgeInsets.all(16),
+                    child: Visibility(
+                        maintainSize: false,
+                        visible: _visible,
+                        child: Flex(
+                          direction: Axis.horizontal,
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: OutlinedButton(
+                                    // style: ElevatedButton.styleFrom(
+                                    //     primary: Color.fromRGBO(255, 0, 0, 1)),
+                                    onPressed: () {},
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(16),
+                                      child: Text("Skip"),
+                                    ),
+                                  )),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                        content: Text(
+                                            "You'll be today's stand up facilitator, thank you!"),
+                                      ));
+                                      setState(() {
+                                        _visible = false;
+                                      });
+                                    },
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(16),
+                                      child: Text("Accept"),
+                                    ),
+                                  )),
+                            )
+                          ],
+                        ))),
+              )
+            ]),
+            const Text("hello world")
+          ],
+        ));
   }
 }
 
