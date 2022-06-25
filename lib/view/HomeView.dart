@@ -57,17 +57,21 @@ class _HomePageState extends State<HomePage>
             controller: _tabController,
             children: [
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 24, bottom: 8),
-                  child: Text(
-                    today,
-                    style: const TextStyle(fontSize: 24),
+                Expanded(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 24, bottom: 8),
+                        child: Text(
+                          today,
+                          style: const TextStyle(fontSize: 24),
+                        ),
+                      ),
+                      Text(weekDay)
+                    ],
                   ),
                 ),
-                Text(weekDay),
-                Spacer(),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 80),
+                Expanded(
                   child: Row(
                     children: const [
                       Spacer(),
@@ -81,39 +85,47 @@ class _HomePageState extends State<HomePage>
                           color: Colors.pink,
                         ),
                       ),
-                      Spacer(),
+                      Spacer()
                     ],
                   ),
                 ),
-                Visibility(
-                  maintainSize: false,
-                  visible: _visible,
-                  child: Row(
-                    children: [
-                      Spacer(),
-                      OutlineButton(
-                        text: "Skip",
-                        onPressed: () {},
+                Expanded(
+                  child: Visibility(
+                    maintainSize: false,
+                    visible: _visible,
+                    child: Container(
+                      padding: EdgeInsets.all(16),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: OutlineButton(
+                              text: "Skip",
+                              onPressed: () {},
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: PrimaryButton(
+                                text: "Accept",
+                                onPressed: () {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                    content: Text(
+                                        "You'll be today's stand up facilitator, thank you!"),
+                                  ));
+                                  setState(() {
+                                    _visible = false;
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      Spacer(),
-                      PrimaryButton(
-                        text: "Accept",
-                        onPressed: () {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            content: Text(
-                                "You'll be today's stand up facilitator, thank you!"),
-                          ));
-                          setState(() {
-                            _visible = false;
-                          });
-                        },
-                      ),
-                      Spacer(),
-                    ],
+                    ),
                   ),
                 ),
-                Spacer(),
               ]),
               RosterListView(),
             ],
