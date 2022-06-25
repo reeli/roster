@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage>
                     maintainSize: false,
                     visible: _visible,
                     child: Container(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       child: Row(
                         children: [
                           Expanded(
@@ -127,7 +127,7 @@ class _HomePageState extends State<HomePage>
                   ),
                 ),
               ]),
-              RosterListView(),
+              const RosterListView(),
             ],
           ),
         ));

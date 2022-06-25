@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -15,20 +17,55 @@ class Photo {
   final String url;
   final String thumbnailUrl;
 
-  const Photo(
-      {required this.albumId,
-      required this.id,
-      required this.title,
-      required this.url,
-      required this.thumbnailUrl});
+  const Photo({
+    required this.albumId,
+    required this.id,
+    required this.title,
+    required this.url,
+    required this.thumbnailUrl,
+  });
 
   factory Photo.fromJson(Map<String, dynamic> json) {
     return Photo(
-        albumId: json["albumId"] as int,
-        id: json["id"] as int,
-        title: json["title"] as String,
-        url: json["url"] as String,
-        thumbnailUrl: json["thumbnailUrl"] as String);
+      albumId: json['albumId'] as int,
+      id: json['id'] as int,
+      title: json['title'] as String,
+      url: json['url'] as String,
+      thumbnailUrl: json['thumbnailUrl'] as String,
+    );
+  }
+}
+
+List<Photo> parsePhotos(String responseBody) {
+  final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
+
+  return parsed.map<Photo>((json) => Photo.fromJson(json)).toList();
+}
+
+Future<List<Photo>> fetchPhotos(client) async {
+  final response =
+      await client.get("https://jsonplaceholder.typicode.com/photos");
+
+  print(response.data.toString());
+  return parsePhotos(response.data);
+}
+
+class PhotosList extends StatelessWidget {
+  const PhotosList({super.key, required this.photos});
+
+  final List<Photo> photos;
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+      ),
+      itemCount: photos.length,
+      itemBuilder: (context, index) {
+        return Image.network(photos[index].thumbnailUrl);
+      },
+    );
   }
 }
 
@@ -42,47 +79,29 @@ class _RosterListViewState extends State<RosterListView> {
     "2022-06-29"
   ];
 
-  void getHttp() async {
-    print("hello");
-    try {
-      var options = BaseOptions(
-        baseUrl: 'https://jsonplaceholder.typicode.com',
-        // connectTimeout: 5000,
-        // receiveTimeout: 3000,
-      );
-      var dio = Dio(options);
-      var response = await dio.get(
-        "/photos",
-      );
-      print(response.data.toString());
-      print("success");
-    } catch (e) {
-      print("error");
-      print(e);
-    }
-  }
+  final Dio _dio = Dio();
 
   @override
   void initState() {
     super.initState();
-    getHttp();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: list.length,
-        itemBuilder: (_, int index) {
-          return ListTile(
-            onTap: () => {},
-            title: Row(
-              children: [
-                Text("item ${list[index]}"),
-                Spacer(),
-                Text(dates[index])
-              ],
-            ),
+    return FutureBuilder<List<Photo>>(
+      future: fetchPhotos(_dio),
+      builder: (context, AsyncSnapshot snapshot) {
+        if (snapshot.hasError) {
+          print(snapshot.error);
+          return const Center(child: Text("An error has occurred!"));
+        } else if (snapshot.hasData) {
+          return PhotosList(photos: snapshot.data!);
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
           );
-        });
+        }
+      },
+    );
   }
 }

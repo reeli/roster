@@ -45,7 +45,7 @@ class StandUpView extends StatelessWidget {
       appBar: AppBar(title: const Text("Second Page")),
       body: Center(
         child: Column(
-          children: [
+          children: const [
             MyForm(),
             // ElevatedButton(
             //   onPressed: () {

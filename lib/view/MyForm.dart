@@ -50,6 +50,7 @@ class _MyFormState extends State<MyForm> {
                   if (value!.trim().isEmpty) {
                     return "Password is required";
                   }
+                  return null;
                 },
                 obscureText: true,
                 decoration: const InputDecoration(labelText: "Password"),
