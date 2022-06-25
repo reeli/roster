@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+import 'RosterView.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,9 +13,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   bool _visible = true;
+
+  final List<String> list = ["A", "B", "C"];
   static const List<Tab> myTabs = <Tab>[
-    Tab(text: 'LEFT'),
-    Tab(text: 'RIGHT'),
+    Tab(text: 'Today'),
+    Tab(text: 'All'),
   ];
 
   late TabController _tabController;
@@ -31,6 +36,10 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
+    var now = DateTime.now();
+    var today = DateFormat.yMMMd("en_US").format(now);
+    var weekDay = DateFormat("EEEE").format(now);
+
     return Scaffold(
         appBar: AppBar(
           title: const Text("Home"),
@@ -66,20 +75,29 @@ class _HomePageState extends State<HomePage>
           controller: _tabController,
           children: [
             Flex(direction: Axis.vertical, children: [
-              const Expanded(
-                flex: 1,
-                child: Center(
-                  child: Text(
-                    "Today's facilitator is",
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ),
-              ),
-              const Expanded(
+              Expanded(
                   flex: 1,
-                  child: Text("Rui Li",
-                      style: TextStyle(
-                          fontSize: 28, fontWeight: FontWeight.bold))),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Spacer(),
+                      Text(
+                        today,
+                        style: TextStyle(fontSize: 24),
+                      ),
+                      Text(weekDay),
+                    ],
+                  )),
+              Spacer(),
+              Expanded(
+                  flex: 1,
+                  child: Column(children: const [
+                    // Text("Stand up facilitator",
+                    //     style: TextStyle(fontSize: 18)),
+                    Text("Rui Li",
+                        style: TextStyle(
+                            fontSize: 32, fontWeight: FontWeight.bold)),
+                  ])),
               Expanded(
                 flex: 1,
                 child: Container(
@@ -130,7 +148,7 @@ class _HomePageState extends State<HomePage>
                         ))),
               )
             ]),
-            const Text("hello world")
+            RosterView()
           ],
         ));
   }
