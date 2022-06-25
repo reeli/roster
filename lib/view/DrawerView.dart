@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'MyForm.dart';
+
 class DrawerView extends StatefulWidget {
   const DrawerView({Key? key}) : super(key: key);
 
@@ -15,11 +17,11 @@ class _DrawerViewState extends State<DrawerView> {
         children: [
           const DrawerHeader(
               decoration: BoxDecoration(color: Colors.blue),
-              child: Text("drawer header")),
+              child: Text("Setting")),
           ListTile(
-            title: const Text("Title 1"),
+            title: const Text("Add New Facilitator"),
             onTap: () {
-              Navigator.pop(context);
+              // Navigator.pop(context);
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const StandUpView()));
             },
@@ -42,11 +44,16 @@ class StandUpView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text("Second Page")),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text("Back"),
+        child: Column(
+          children: [
+            MyForm(),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     Navigator.pop(context);
+            //   },
+            //   child: const Text("Back"),
+            // ),
+          ],
         ),
       ),
     );
