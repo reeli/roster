@@ -1,7 +1,8 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import 'photo.dart';
 
 class RosterListView extends StatefulWidget {
   const RosterListView({Key? key}) : super(key: key);
@@ -10,44 +11,13 @@ class RosterListView extends StatefulWidget {
   State<RosterListView> createState() => _RosterListViewState();
 }
 
-class Photo {
-  final int albumId;
-  final int id;
-  final String title;
-  final String url;
-  final String thumbnailUrl;
-
-  const Photo({
-    required this.albumId,
-    required this.id,
-    required this.title,
-    required this.url,
-    required this.thumbnailUrl,
-  });
-
-  factory Photo.fromJson(Map<String, dynamic> json) {
-    return Photo(
-      albumId: json['albumId'] as int,
-      id: json['id'] as int,
-      title: json['title'] as String,
-      url: json['url'] as String,
-      thumbnailUrl: json['thumbnailUrl'] as String,
-    );
-  }
-}
-
-List<Photo> parsePhotos(String responseBody) {
-  final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
-
-  return parsed.map<Photo>((json) => Photo.fromJson(json)).toList();
-}
-
-Future<List<Photo>> fetchPhotos(client) async {
+Future<List<Photo>> fetchPhotos(Dio client) async {
   final response =
       await client.get("https://jsonplaceholder.typicode.com/photos");
 
-  print(response.data.toString());
-  return parsePhotos(response.data);
+  return (response.data as List<dynamic>)
+      .map((e) => Photo.fromJson(e))
+      .toList();
 }
 
 class PhotosList extends StatelessWidget {
