@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:roster/view/DrawerView.dart';
 
-import 'RosterView.dart';
+import '../common/ui/OutlinedButton.dart';
+import '../common/ui/PrimaryButton.dart';
+import 'RosterListView.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -48,127 +51,73 @@ class _HomePageState extends State<HomePage>
             controller: _tabController,
           ),
         ),
-        drawer: Drawer(
-          child: ListView(
+        drawer: const DrawerView(),
+        body: SafeArea(
+          child: TabBarView(
+            controller: _tabController,
             children: [
-              const DrawerHeader(
-                  decoration: BoxDecoration(color: Colors.blue),
-                  child: Text("drawer header")),
-              ListTile(
-                title: const Text("Title 1"),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const StandUpView()));
-                },
-              ),
-              ListTile(
-                title: const Text("Title 2"),
-                onTap: () {},
-              )
-            ],
-          ),
-        ),
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-            Flex(direction: Axis.vertical, children: [
-              Expanded(
-                  flex: 1,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 24, bottom: 8),
+                  child: Text(
+                    today,
+                    style: const TextStyle(fontSize: 24),
+                  ),
+                ),
+                Text(weekDay),
+                Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 80),
+                  child: Row(
+                    children: const [
+                      Spacer(),
+                      Text("Rui Li",
+                          style: TextStyle(
+                              fontSize: 32, fontWeight: FontWeight.bold)),
+                      Padding(
+                        padding: EdgeInsets.only(left: 8),
+                        child: Icon(
+                          Icons.favorite,
+                          color: Colors.pink,
+                        ),
+                      ),
+                      Spacer(),
+                    ],
+                  ),
+                ),
+                Visibility(
+                  maintainSize: false,
+                  visible: _visible,
+                  child: Row(
                     children: [
                       Spacer(),
-                      Text(
-                        today,
-                        style: TextStyle(fontSize: 24),
+                      OutlineButton(
+                        text: "Skip",
+                        onPressed: () {},
                       ),
-                      Text(weekDay),
+                      Spacer(),
+                      PrimaryButton(
+                        text: "Accept",
+                        onPressed: () {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content: Text(
+                                "You'll be today's stand up facilitator, thank you!"),
+                          ));
+                          setState(() {
+                            _visible = false;
+                          });
+                        },
+                      ),
+                      Spacer(),
                     ],
-                  )),
-              Spacer(),
-              Expanded(
-                  flex: 1,
-                  child: Column(children: const [
-                    // Text("Stand up facilitator",
-                    //     style: TextStyle(fontSize: 18)),
-                    Text("Rui Li",
-                        style: TextStyle(
-                            fontSize: 32, fontWeight: FontWeight.bold)),
-                  ])),
-              Expanded(
-                flex: 1,
-                child: Container(
-                    padding: const EdgeInsets.all(16),
-                    child: Visibility(
-                        maintainSize: false,
-                        visible: _visible,
-                        child: Flex(
-                          direction: Axis.horizontal,
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: OutlinedButton(
-                                    // style: ElevatedButton.styleFrom(
-                                    //     primary: Color.fromRGBO(255, 0, 0, 1)),
-                                    onPressed: () {},
-                                    child: const Padding(
-                                      padding: EdgeInsets.all(16),
-                                      child: Text("Skip"),
-                                    ),
-                                  )),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(const SnackBar(
-                                        content: Text(
-                                            "You'll be today's stand up facilitator, thank you!"),
-                                      ));
-                                      setState(() {
-                                        _visible = false;
-                                      });
-                                    },
-                                    child: const Padding(
-                                      padding: EdgeInsets.all(16),
-                                      child: Text("Accept"),
-                                    ),
-                                  )),
-                            )
-                          ],
-                        ))),
-              )
-            ]),
-            RosterView()
-          ],
+                  ),
+                ),
+                Spacer(),
+              ]),
+              RosterListView(),
+            ],
+          ),
         ));
-  }
-}
-
-class StandUpView extends StatelessWidget {
-  const StandUpView({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Second Page")),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text("Back"),
-        ),
-      ),
-    );
   }
 }

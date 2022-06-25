@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class RosterView extends StatefulWidget {
-  const RosterView({Key? key}) : super(key: key);
+class RosterListView extends StatefulWidget {
+  const RosterListView({Key? key}) : super(key: key);
 
   @override
-  State<RosterView> createState() => _RosterViewState();
+  State<RosterListView> createState() => _RosterListViewState();
 }
 
-class _RosterViewState extends State<RosterView> {
+class _RosterListViewState extends State<RosterListView> {
   final List<String> list = ["A", "B", "C", "D", "E"];
   final List<String> dates = [
     "2022-06-25",
