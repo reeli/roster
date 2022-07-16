@@ -5,7 +5,7 @@ import 'package:roster/api/fetch_calendar.dart';
 void main() {
   var json = {
     "kind": "calendar#events",
-    "etag": "\"p33io71slo3ufg0g\"",
+    "etag": "p33io71slo3ufg0g",
     "summary": "Holidays in China",
     "updated": "2022-07-14T17:01:39.000Z",
     "timeZone": "UTC",
@@ -34,7 +34,7 @@ void main() {
       },
       {
         "kind": "calendar#event",
-        "etag": "\"3259960203388000\"",
+        "etag": "3259960203388000",
         "id": "20210101_puplc3j986a3prv4892kq3sh4k",
         "status": "confirmed",
         "htmlLink":
@@ -69,14 +69,18 @@ void main() {
   group("getHolidayName", () {
     test("should return public holiday name if given date is a public holiday",
         () {
-      expect(getHolidayName(DateTime(2021, 1, 1), Calendar.fromJson(json)),
-          "New Year's Day");
+      var holiday = getHolidayNameAndCountry(
+          DateTime(2021, 1, 1), Calendar.fromJson(json));
+
+      expect(holiday?.country, "China");
+      expect(holiday?.name, "New Year's Day");
     });
 
-    test("should return empty string if given date is not a public holiday",
-        () {
+    test("should return null if given date is not a public holiday", () {
       expect(
-          getHolidayName(DateTime(2021, 2, 14), Calendar.fromJson(json)), "");
+          getHolidayNameAndCountry(
+              DateTime(2021, 2, 14), Calendar.fromJson(json)),
+          null);
     });
   });
 }

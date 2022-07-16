@@ -10,14 +10,16 @@ class CalendarItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-      ),
-      itemCount: calendar.items.length,
-      itemBuilder: (context, index) {
-        return Text(calendar.summary);
-      },
+    var now = DateTime(2022, 1, 1);
+    var holiday = isPublicHoliday(now, calendar)
+        ? getHolidayNameAndCountry(now, calendar)
+        : Holiday("Empty", "Today is not holiday");
+
+    return Row(
+      children: [
+        Text(holiday!.country),
+        Text(holiday.name),
+      ],
     );
   }
 }
@@ -30,7 +32,7 @@ class CalendarView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: fetchCalendar(_dio),
+      future: fetchCalendar(_dio, areaChina),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasError) {
           print(snapshot.error);
