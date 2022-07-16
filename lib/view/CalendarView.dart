@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:roster/api/calendar.dart';
-import 'package:roster/api/fetchCalendar.dart';
+import 'package:roster/api/fetch_calendar.dart';
 
 class CalendarItemView extends StatelessWidget {
   const CalendarItemView({super.key, required this.calendar});
