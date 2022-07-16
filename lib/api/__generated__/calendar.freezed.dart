@@ -320,7 +320,7 @@ mixin _$Item {
   String? get transparency => throw _privateConstructorUsedError;
   String? get visibility => throw _privateConstructorUsedError;
   String? get iCalUID => throw _privateConstructorUsedError;
-  String? get sequence => throw _privateConstructorUsedError;
+  int? get sequence => throw _privateConstructorUsedError;
   String? get eventType => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -349,7 +349,7 @@ abstract class $ItemCopyWith<$Res> {
       String? transparency,
       String? visibility,
       String? iCalUID,
-      String? sequence,
+      int? sequence,
       String? eventType});
 
   $UserCopyWith<$Res>? get creator;
@@ -455,7 +455,7 @@ class _$ItemCopyWithImpl<$Res> implements $ItemCopyWith<$Res> {
       sequence: sequence == freezed
           ? _value.sequence
           : sequence // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       eventType: eventType == freezed
           ? _value.eventType
           : eventType // ignore: cast_nullable_to_non_nullable
@@ -530,7 +530,7 @@ abstract class _$$_ItemCopyWith<$Res> implements $ItemCopyWith<$Res> {
       String? transparency,
       String? visibility,
       String? iCalUID,
-      String? sequence,
+      int? sequence,
       String? eventType});
 
   @override
@@ -641,7 +641,7 @@ class __$$_ItemCopyWithImpl<$Res> extends _$ItemCopyWithImpl<$Res>
       sequence: sequence == freezed
           ? _value.sequence
           : sequence // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       eventType: eventType == freezed
           ? _value.eventType
           : eventType // ignore: cast_nullable_to_non_nullable
@@ -708,7 +708,7 @@ class _$_Item implements _Item {
   @override
   final String? iCalUID;
   @override
-  final String? sequence;
+  final int? sequence;
   @override
   final String? eventType;
 
@@ -797,7 +797,7 @@ abstract class _Item implements Item {
       final String? transparency,
       final String? visibility,
       final String? iCalUID,
-      final String? sequence,
+      final int? sequence,
       final String? eventType}) = _$_Item;
 
   factory _Item.fromJson(Map<String, dynamic> json) = _$_Item.fromJson;
@@ -835,7 +835,7 @@ abstract class _Item implements Item {
   @override
   String? get iCalUID => throw _privateConstructorUsedError;
   @override
-  String? get sequence => throw _privateConstructorUsedError;
+  int? get sequence => throw _privateConstructorUsedError;
   @override
   String? get eventType => throw _privateConstructorUsedError;
   @override

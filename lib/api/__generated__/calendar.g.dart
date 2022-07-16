@@ -51,7 +51,7 @@ _$_Item _$$_ItemFromJson(Map<String, dynamic> json) => _$_Item(
       transparency: json['transparency'] as String?,
       visibility: json['visibility'] as String?,
       iCalUID: json['iCalUID'] as String?,
-      sequence: json['sequence'] as String?,
+      sequence: json['sequence'] as int?,
       eventType: json['eventType'] as String?,
     );
 

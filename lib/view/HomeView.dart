@@ -4,7 +4,7 @@ import 'package:roster/view/DrawerView.dart';
 
 import '../common/ui/OutlinedButton.dart';
 import '../common/ui/PrimaryButton.dart';
-import 'RosterListView.dart';
+import 'CalendarView.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -127,7 +127,7 @@ class _HomePageState extends State<HomePage>
                   ),
                 ),
               ]),
-              const RosterListView(),
+              CalendarView(),
             ],
           ),
         ));

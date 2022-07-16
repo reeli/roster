@@ -42,7 +42,7 @@ class Item with _$Item {
     String? transparency,
     String? visibility,
     String? iCalUID,
-    String? sequence,
+    int? sequence,
     String? eventType,
   }) = _Item;
 
